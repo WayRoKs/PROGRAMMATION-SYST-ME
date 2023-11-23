@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PROGRAMMATION_SYST_ME.View;
+using System;
 
 namespace PROGRAMMATION_SYST_ME
 {
@@ -6,7 +7,8 @@ namespace PROGRAMMATION_SYST_ME
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var mvvm = new ConsoleView();
+            mvvm.InitialChoice();
         }
     }
 }

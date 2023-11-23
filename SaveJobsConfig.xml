@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+	<saveJob1>
+		<name>default1</name>
+		<source>C:/default1/source/</source>
+		<destination>C:/default1/destination/</destination>
+		<type>0</type>
+	</saveJob1>
+</configuration>
