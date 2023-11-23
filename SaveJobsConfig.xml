@@ -1,9 +1,33 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<configuration>
-	<saveJob1>
-		<name>default1</name>
-		<source>C:/default1/source/</source>
-		<destination>C:/default1/destination/</destination>
-		<type>0</type>
-	</saveJob1>
-</configuration>
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <saveJob1>
+    <name>test</name>
+    <source>C:/default1/source/</source>
+    <destination>C:/default1/destination/</destination>
+    <type>0</type>
+  </saveJob1>
+  <saveJob2>
+    <name>default2</name>
+    <source>C:/default2/source/</source>
+    <destination>C:/default2/destination/</destination>
+    <type>0</type>
+  </saveJob2>
+  <saveJob3>
+    <name>default3</name>
+    <source>C:/default3/source/</source>
+    <destination>C:/default3/destination/</destination>
+    <type>0</type>
+  </saveJob3>
+  <saveJob4>
+    <name>default4</name>
+    <source>C:/default4/source/</source>
+    <destination>C:/default4/destination/</destination>
+    <type>0</type>
+  </saveJob4>
+  <saveJob5>
+    <name>default5</name>
+    <source>C:/default5/source/</source>
+    <destination>C:/default5/destination/</destination>
+    <type>0</type>
+  </saveJob5>
+</root>

@@ -17,6 +17,7 @@ namespace PROGRAMMATION_SYST_ME.View
         }
         public void InitialChoice() // offer a choice between update backup jobs or execute backup jobs
         {
+            Console.Clear();
             Console.WriteLine("Choose between U (Update backup jobs) or E (Execute backup jobs) or Q (Quit) : ");
             var choice = Console.ReadLine();
             if (choice.Length == 1)
@@ -59,38 +60,57 @@ namespace PROGRAMMATION_SYST_ME.View
             Console.WriteLine("Select the backup job to modify : ");
             for (var i = 0; i < 5; i++)
             {
-                Console.WriteLine(i + 1 + " -> " + userInteract.backupJobs[i].Name);
+                Console.WriteLine(i + 1 + " -> " + userInteract.backupJobs.Name[i]);
             }
             int jobChoice = 0;
             try // Convertion from string to int is dangerous
             {
-                jobChoice = int.Parse(Console.ReadLine());
+                jobChoice = int.Parse(Console.ReadLine()) - 1;
             } catch(System.FormatException e)
             {
                 errorCode = 2;
                 return;
             }
-            if (!(jobChoice >= 1 && jobChoice <= 5))
+            if (!(jobChoice >= 0 && jobChoice < 5))
             {
                 errorCode = 2;
                 return;
             }
             Console.WriteLine("Select what you want to change : ");
-            // Propose choices + Q for quit
+            ShowParam(jobChoice);
+            Console.WriteLine("Q -> Quit");
             var change = Console.ReadLine();
             if (!(change == "N" || change == "S" || change == "D" || change == "T" || change == "Q"))
             {
                 errorCode = 2;
                 return;
             }
-            Console.WriteLine("New value : ");
+            if (change == "Q")
+                return;
+            Console.Write("New value : ");
+            if (change == "T")
+                Console.WriteLine(" (0 for full backup or 1 for differencial backup)");
             var newValue = Console.ReadLine();
-            if (newValue == "")
+            if (newValue == "" || (change == "T" && !(newValue == "0" || newValue == "1")))
             {
                 errorCode = 2;
                 return;
             }
             errorCode = userInteract.UpdateJob(jobChoice, change, newValue);
+            ShowParam(jobChoice);
+            Console.WriteLine("Confirm : (N for No or anything else)");
+            if (Console.ReadLine() == "N")
+            {
+                Console.Clear();
+                UpdateChoice();
+            }
+        }
+        private void ShowParam(int param)
+        {
+            Console.WriteLine($"N -> Name : {userInteract.backupJobs.Name[param]}");
+            Console.WriteLine($"S -> Source path : {userInteract.backupJobs.Source[param]}");
+            Console.WriteLine($"D -> Destination path : {userInteract.backupJobs.Destination[param]}");
+            Console.WriteLine("T -> Type : {0}", userInteract.backupJobs.Type[param] == 0 ? "Full backup" : "Differential backup");
         }
         private void PrintError(int errorCode) // error handling
         {
