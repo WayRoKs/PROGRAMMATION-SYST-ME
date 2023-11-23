@@ -45,18 +45,22 @@ namespace PROGRAMMATION_SYST_ME.View
                 InitialChoice();
             else 
                 PrintError(errorCode);
+                InitialChoice();
         }
         public void ExecuteChoice() // ask to select the backup jobs to execute
         {
-            Console.WriteLine("Select the backup jobs to execute (example : 1-3 or 1;3) : ");
+            Console.WriteLine("Select the backup jobs to execute (example : 1-3 or 1;3) or Q to Quit : ");
             var selection = Console.ReadLine();
             if (!(Regex.IsMatch(selection,@"[1-4]-[2-5]") || 
                 Regex.IsMatch(selection,@"([1-5];[1-5]+){1,5}" ) || 
-                Regex.IsMatch(selection, @"[1-5]")))
+                Regex.IsMatch(selection, @"[1-5]") ||
+                selection == "Q"))
             {
                 errorCode = 2;
                 return;
             }
+            if (selection == "Q")
+                return;
             errorCode = userInteract.ExecuteJob(selection);
         }
         public void UpdateChoice() // ask to select which backup jobs to modify
