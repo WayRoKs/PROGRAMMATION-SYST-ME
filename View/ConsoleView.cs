@@ -18,6 +18,10 @@ namespace PROGRAMMATION_SYST_ME.View
         public void InitialChoice() // offer a choice between update backup jobs or execute backup jobs
         {
             Console.Clear();
+            for (var i = 0; i < 5; i++)
+            {
+                Console.WriteLine(i + 1 + " -> " + userInteract.backupJobs.Name[i]);
+            }
             Console.WriteLine("Choose between U (Update backup jobs) or E (Execute backup jobs) or Q (Quit) : ");
             var choice = Console.ReadLine();
             if (choice.Length == 1)
@@ -58,15 +62,11 @@ namespace PROGRAMMATION_SYST_ME.View
         public void UpdateChoice() // ask to select which backup jobs to modify
         {
             Console.WriteLine("Select the backup job to modify : ");
-            for (var i = 0; i < 5; i++)
-            {
-                Console.WriteLine(i + 1 + " -> " + userInteract.backupJobs.Name[i]);
-            }
             int jobChoice = 0;
             try // Convertion from string to int is dangerous
             {
                 jobChoice = int.Parse(Console.ReadLine()) - 1;
-            } catch(System.FormatException e)
+            } catch(System.FormatException)
             {
                 errorCode = 2;
                 return;
@@ -98,10 +98,11 @@ namespace PROGRAMMATION_SYST_ME.View
             }
             errorCode = userInteract.UpdateJob(jobChoice, change, newValue);
             ShowParam(jobChoice);
-            Console.WriteLine("Confirm : (N for No or anything else)");
-            if (Console.ReadLine() == "N")
+            Console.WriteLine("Confirm : (M to Modify or anything else to confirm)");
+            if (Console.ReadLine() == "M")
             {
                 Console.Clear();
+                ShowParam(jobChoice);
                 UpdateChoice();
             }
         }
@@ -116,7 +117,7 @@ namespace PROGRAMMATION_SYST_ME.View
         {
             switch (errorCode)
             {
-                case 1: Console.WriteLine("Succeful exit"); break;
+                case 1: Console.WriteLine("Successful exit"); break;
                 case 2: FormatError("Invalid input"); break;
                 case 3: FormatError(""); break;
             }

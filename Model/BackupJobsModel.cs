@@ -9,7 +9,7 @@ namespace PROGRAMMATION_SYST_ME.Model
     {
         public XmlDocument xml = new XmlDocument();
         // Temporary path for test
-        private string xmlPath = @"C:\Users\nicor\source\repos\PROGRAMMATION-SYST-ME\SaveJobsConfig.xml";
+        private readonly string xmlPath = @"C:\Users\nicor\source\repos\PROGRAMMATION-SYST-ME\SaveJobsConfig.xml";
         public BackupJobsModel()
         {
             try

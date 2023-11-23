@@ -7,7 +7,7 @@
     <type>0</type>
   </saveJob1>
   <saveJob2>
-    <name>default2</name>
+    <name>testy</name>
     <source>C:/default2/source/</source>
     <destination>C:/default2/destination/</destination>
     <type>0</type>
@@ -16,10 +16,10 @@
     <name>default3</name>
     <source>C:/default3/source/</source>
     <destination>C:/default3/destination/</destination>
-    <type>0</type>
+    <type>1</type>
   </saveJob3>
   <saveJob4>
-    <name>default4</name>
+    <name>zer</name>
     <source>C:/default4/source/</source>
     <destination>C:/default4/destination/</destination>
     <type>0</type>
