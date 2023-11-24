@@ -41,7 +41,7 @@ namespace PROGRAMMATION_SYST_ME.ViewModel
                     }
                     else // Differencial backup
                     {
-
+                        errorCode = DiferencialCopy(backupJobs.Source[jobsToExec[i]], backupJobs.Destination[jobsToExec[i]]);
                     }
                 }
                 else break;
@@ -68,6 +68,28 @@ namespace PROGRAMMATION_SYST_ME.ViewModel
                 FullCopy(subDir.FullName, newDestinationDir);
             }
             return 0;
+        }
+        public int DiferencialCopy(string source, string destination)
+        {
+            var dir = new DirectoryInfo(source);
+            if (!dir.Exists)
+                return 3;
+            DirectoryInfo[] dirs = dir.GetDirectories();
+            Directory.CreateDirectory(destination);
+            foreach (FileInfo file in dir.GetFiles())
+            {
+                var destPath = Path.Combine(destination, file.Name);
+                var destFile = new FileInfo(destPath);
+                if (file.LastWriteTime != destFile.LastWriteTime) // Condition to see if file changed
+                    file.CopyTo(destPath, true);
+            }
+            foreach (DirectoryInfo subDir in dirs)
+            {
+                string newDestinationDir = Path.Combine(destination, subDir.Name);
+                DiferencialCopy(subDir.FullName, newDestinationDir);
+            }
+            return 0;
+
         }
     }
 }

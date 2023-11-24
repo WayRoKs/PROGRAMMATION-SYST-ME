@@ -10,7 +10,7 @@ namespace PROGRAMMATION_SYST_ME.Model
     {
         public XmlDocument xml = new XmlDocument();
         // Temporary path for test
-        private string xmlPath;
+        private readonly string xmlPath;
         public BackupJobsModel()
         {
             xmlPath = Path.Combine(Environment.CurrentDirectory, @"SaveJobsConfig.xml");

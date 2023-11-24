@@ -22,22 +22,19 @@ namespace PROGRAMMATION_SYST_ME.View
             }
             Console.WriteLine("Choose between U (Update backup jobs) or E (Execute backup jobs) or Q (Quit) : ");
             var choice = Console.ReadLine();
-            if (choice.Length == 1)
+            if (choice == "U")
             {
-                if (choice == "U")
-                {
-                    UpdateChoice();
-                }
-                else if (choice == "E")
-                {
-                    ExecuteChoice();
-                }
-                else if (choice == "Q")
-                    errorCode = 1; // Normal exit
-                else
-                    errorCode = 2;
+                UpdateChoice();
             }
-            else 
+            else if (choice == "E")
+            {
+                ExecuteChoice();
+            }
+            else if (choice == "Q")
+            {
+                errorCode = 1; // Normal exit
+            }
+            else
                 errorCode = 2;
             if (errorCode == 0)
                 InitialChoice();
@@ -83,7 +80,7 @@ namespace PROGRAMMATION_SYST_ME.View
         public void UpdateChoice() // ask to select which backup jobs to modify
         {
             Console.WriteLine("Select the backup job to modify : ");
-            int jobChoice = 0;
+            int jobChoice;
             try // Convertion from string to int is dangerous
             {
                 jobChoice = int.Parse(Console.ReadLine()) - 1;
@@ -138,7 +135,10 @@ namespace PROGRAMMATION_SYST_ME.View
         {
             switch (errorCode)
             {
-                case 1: Console.WriteLine("Successful exit"); break;
+                case 1: 
+                    Console.WriteLine("Successful exit");
+                    Environment.Exit(0);
+                    break;
                 case 2: FormatError("Invalid input"); break;
                 case 3: FormatError("Source directory not found"); break;
             }
