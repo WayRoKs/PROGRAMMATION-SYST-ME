@@ -29,7 +29,7 @@ namespace PROGRAMMATION_SYST_ME.Model
             logFile = Path.Combine(logFolder, DateTime.Now.Day.ToString() + "_" + DateTime.Now.Month.ToString() + "_" + DateTime.Now.Year.ToString() + ".json");
         }
         /// <summary>
-        /// 
+        /// Method to write our logs' content
         /// </summary>
         /// <param name="info"> Info </param>
         /// <param name="elapsedTime"> Time </param>
@@ -52,9 +52,9 @@ namespace PROGRAMMATION_SYST_ME.Model
             File.AppendAllText(logFile, jsonString);
         }
     }
-    /// <summary
-    ///
-    ///
+    /// <summary>
+    /// Data model for our log
+    /// </summary>
     class Data
     {
         public string Name { set; get; }

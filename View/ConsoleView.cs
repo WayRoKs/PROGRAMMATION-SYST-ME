@@ -5,6 +5,9 @@ using System.Text.RegularExpressions;
 
 namespace PROGRAMMATION_SYST_ME.View
 {
+    /// <summary>
+    /// 
+    /// </summary>
     class ConsoleView
     {
         private readonly UserInteractionViewModel userInteract;
@@ -13,7 +16,7 @@ namespace PROGRAMMATION_SYST_ME.View
         {
             userInteract = new UserInteractionViewModel();
         }
-        public void InitialChoice() // offer a choice between update backup jobs or execute backup jobs
+        public void InitialChoice() 
         {
             Console.Clear();
             for (var i = 0; i < 5; i++)

@@ -6,14 +6,17 @@ using System.Xml;
 
 namespace PROGRAMMATION_SYST_ME.Model
 {
+    /// <summary>
+    /// Model class for a list of 5 backup jobs
+    /// </summary>
     class BackupJobsModel
     {
         public XmlDocument xml = new XmlDocument();
-        // Temporary path for test
         private readonly string xmlPath;
         public BackupJobsModel()
         {
             xmlPath = Path.Combine(Environment.CurrentDirectory, @"SaveJobsConfig.xml");
+            // if the selected path is found, proceed. otherwise raise an error.
             try
             {  
                 xml.Load(xmlPath);
@@ -37,6 +40,9 @@ namespace PROGRAMMATION_SYST_ME.Model
         public string[] Source { get; set; } = new string[5];
         public string[] Destination { get; set; } = new string[5];
         public int[] Type { get; set; } = new int[5];// O is full backup and 1 is differential backup
+        /// <summary>
+        /// Method that allows for edits in the backup jobs
+        /// </summary>
         public void SaveParam()
         {
             var i = 0;

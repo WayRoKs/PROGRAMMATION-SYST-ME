@@ -108,8 +108,7 @@ namespace PROGRAMMATION_SYST_ME.ViewModel
             }
             foreach (DirectoryInfo subDir in dirs)
             {
-                string newDestinationDir = Path.Combine(destination, subDir.Name);
-                FullCopy(subDir.FullName, newDestinationDir);
+                FullCopy(subDir.FullName, Path.Combine(destination, subDir.Name));
             }
             return 0;
         }
@@ -132,8 +131,7 @@ namespace PROGRAMMATION_SYST_ME.ViewModel
             }
             foreach (DirectoryInfo subDir in dirs)
             {
-                string newDestinationDir = Path.Combine(destination, subDir.Name);
-                DiferencialCopy(subDir.FullName, newDestinationDir);
+                DiferencialCopy(subDir.FullName, Path.Combine(destination, subDir.Name));
             }
             return 0;
 
