@@ -46,40 +46,11 @@ namespace PROGRAMMATION_SYST_ME.View
         {
             Console.WriteLine("Select the backup jobs to execute (example : 1-3 or 1;3) or Q to Quit : ");
             var selection = Console.ReadLine();
-            List<int> jobs = new List<int>();
-            if (Regex.IsMatch(selection, @"^[1-4]-[2-5]\z"))
-            {
-                var start = selection[0];
-                var end = selection[2];
-                for (var i = start; i < end + 1; i++)
-                {
-                    jobs.Add(i - '0' - 1);
-                }
-            }
-            else if (Regex.IsMatch(selection, @"^[1-5](;[1-5]){0,3};[1-5]\z"))
-            {
-                foreach (char c in selection)
-                {
-                    if (c != ';')
-                        jobs.Add(c - '0' - 1);
-                }
-            }
-            else if (Regex.IsMatch(selection, @"^[1-5]\z"))
-            {
-                jobs.Add(int.Parse(selection) - 1);
-            }
-            else if (selection == "Q")
-                return;
-            else
-            {
-                errorCode = 2;
-                return;
-            }
-            errorCode = userInteract.ExecuteJob(jobs);
+            errorCode = userInteract.ExecuteJob(selection);
         }
         public void UpdateChoice() // ask to select which backup jobs to modify
         {
-            Console.WriteLine("Select the backup job to modify : ");
+            Console.WriteLine("Select the backup job to modify (Between 1 to 5) : ");
             int jobChoice;
             try // Convertion from string to int is dangerous
             {
