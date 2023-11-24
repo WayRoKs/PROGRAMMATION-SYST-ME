@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Xml;
-using System.Reflection.Metadata;
-using System.Text;
+﻿using System.Collections.Generic;
 using PROGRAMMATION_SYST_ME.Model;
-using System.Xml.Linq;
+using System.IO;
 
 namespace PROGRAMMATION_SYST_ME.ViewModel
 {
@@ -35,7 +30,43 @@ namespace PROGRAMMATION_SYST_ME.ViewModel
         }
         public int ExecuteJob(List<int> jobsToExec) // execute save job
         {
+            var errorCode = 0;
+            for (var i = 0; i < jobsToExec.Count; i++)
+            {
+                if (errorCode == 0)
+                {
+                    if (backupJobs.Type[jobsToExec[i]] == 0) // Full backup
+                    {
+                        errorCode = FullCopy(backupJobs.Source[jobsToExec[i]], backupJobs.Destination[jobsToExec[i]]);
+                    }
+                    else // Differencial backup
+                    {
 
+                    }
+                }
+                else break;
+            }
+            return errorCode;
+        }
+        public int FullCopy(string source, string destination)
+        {
+            var dir = new DirectoryInfo(source);
+            if (!dir.Exists)
+                return 3;
+            DirectoryInfo[] dirs = dir.GetDirectories();
+            var dirDest = new DirectoryInfo(destination);
+            if (dirDest.Exists)
+                Directory.Delete(destination, true);
+            Directory.CreateDirectory(destination);
+            foreach (FileInfo file in dir.GetFiles())
+            {
+                file.CopyTo(Path.Combine(destination, file.Name), true);
+            }
+            foreach (DirectoryInfo subDir in dirs)
+            {
+                string newDestinationDir = Path.Combine(destination, subDir.Name);
+                FullCopy(subDir.FullName, newDestinationDir);
+            }
             return 0;
         }
     }

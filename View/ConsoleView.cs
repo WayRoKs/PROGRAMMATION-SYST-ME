@@ -1,8 +1,6 @@
 ﻿using PROGRAMMATION_SYST_ME.ViewModel;
 using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace PROGRAMMATION_SYST_ME.View
@@ -51,7 +49,6 @@ namespace PROGRAMMATION_SYST_ME.View
         {
             Console.WriteLine("Select the backup jobs to execute (example : 1-3 or 1;3) or Q to Quit : ");
             var selection = Console.ReadLine();
-            Console.WriteLine(selection);
             List<int> jobs = new List<int>();
             if (Regex.IsMatch(selection, @"^[1-4]-[2-5]\z"))
             {
@@ -59,7 +56,7 @@ namespace PROGRAMMATION_SYST_ME.View
                 var end = selection[2];
                 for (var i = start; i < end + 1; i++)
                 {
-                    jobs.Add(i);
+                    jobs.Add(i - '0' - 1);
                 }
             }
             else if (Regex.IsMatch(selection, @"^[1-5](;[1-5]){0,3};[1-5]\z"))
@@ -67,12 +64,12 @@ namespace PROGRAMMATION_SYST_ME.View
                 foreach (char c in selection)
                 {
                     if (c != ';')
-                        jobs.Add(c);
+                        jobs.Add(c - '0' - 1);
                 }
             }
-            else if (Regex.IsMatch(selection, @"^$[1-5]"))
+            else if (Regex.IsMatch(selection, @"^[1-5]\z"))
             {
-                jobs.Add(int.Parse(selection));
+                jobs.Add(int.Parse(selection) - 1);
             }
             else if (selection == "Q")
                 return;
@@ -143,7 +140,7 @@ namespace PROGRAMMATION_SYST_ME.View
             {
                 case 1: Console.WriteLine("Successful exit"); break;
                 case 2: FormatError("Invalid input"); break;
-                case 3: FormatError(""); break;
+                case 3: FormatError("Source directory not found"); break;
             }
         }
         private void FormatError(string msg) // Format error print
