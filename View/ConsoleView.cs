@@ -51,17 +51,37 @@ namespace PROGRAMMATION_SYST_ME.View
         {
             Console.WriteLine("Select the backup jobs to execute (example : 1-3 or 1;3) or Q to Quit : ");
             var selection = Console.ReadLine();
-            if (!(Regex.IsMatch(selection,@"[1-4]-[2-5]") || 
-                Regex.IsMatch(selection,@"([1-5];[1-5]+){1,5}" ) || 
-                Regex.IsMatch(selection, @"[1-5]") ||
-                selection == "Q"))
+            Console.WriteLine(selection);
+            List<int> jobs = new List<int>();
+            if (Regex.IsMatch(selection, @"^[1-4]-[2-5]\z"))
+            {
+                var start = selection[0];
+                var end = selection[2];
+                for (var i = start; i < end + 1; i++)
+                {
+                    jobs.Add(i);
+                }
+            }
+            else if (Regex.IsMatch(selection, @"^[1-5](;[1-5]){0,3};[1-5]\z"))
+            {
+                foreach (char c in selection)
+                {
+                    if (c != ';')
+                        jobs.Add(c);
+                }
+            }
+            else if (Regex.IsMatch(selection, @"^$[1-5]"))
+            {
+                jobs.Add(int.Parse(selection));
+            }
+            else if (selection == "Q")
+                return;
+            else
             {
                 errorCode = 2;
                 return;
             }
-            if (selection == "Q")
-                return;
-            errorCode = userInteract.ExecuteJob(selection);
+            errorCode = userInteract.ExecuteJob(jobs);
         }
         public void UpdateChoice() // ask to select which backup jobs to modify
         {
@@ -129,6 +149,7 @@ namespace PROGRAMMATION_SYST_ME.View
         private void FormatError(string msg) // Format error print
         {
             Console.WriteLine($"Error {errorCode} : {msg}");
+            Console.ReadKey();
         }
     }
 }

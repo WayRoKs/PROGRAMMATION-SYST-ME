@@ -33,7 +33,7 @@ namespace PROGRAMMATION_SYST_ME.ViewModel
             backupJobs.SaveParam();
             return 0;
         }
-        public int ExecuteJob(string jobsToExec) // execute save job
+        public int ExecuteJob(List<int> jobsToExec) // execute save job
         {
 
             return 0;
