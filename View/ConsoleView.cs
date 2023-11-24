@@ -6,16 +6,22 @@ using System.Text.RegularExpressions;
 namespace PROGRAMMATION_SYST_ME.View
 {
     /// <summary>
-    /// 
+    /// Console view for the user (interface)
     /// </summary>
     class ConsoleView
     {
         private readonly UserInteractionViewModel userInteract;
         private int errorCode;
+        /// <summary>
+        /// Creates the interface
+        /// </summary>
         public ConsoleView()
         {
             userInteract = new UserInteractionViewModel();
         }
+        /// <summary>
+        /// Method that allows for initial selection between executing backup jobs or editing backup jobs
+        /// </summary>
         public void InitialChoice() 
         {
             Console.Clear();
@@ -45,17 +51,23 @@ namespace PROGRAMMATION_SYST_ME.View
                 PrintError(errorCode);
                 InitialChoice();
         }
-        public void ExecuteChoice() // ask to select the backup jobs to execute
+        /// <summary>
+        /// Method that asks the user for the backup job(s) to execute, then executes the selected backup job(s)
+        /// </summary>
+        public void ExecuteChoice() 
         {
             Console.WriteLine("Select the backup jobs to execute (example : 1-3 or 1;3) or Q to Quit : ");
             var selection = Console.ReadLine();
             errorCode = userInteract.ExecuteJob(selection);
         }
-        public void UpdateChoice() // ask to select which backup jobs to modify
+        /// <summary>
+        /// Method that allows the user to select which backup job he'd like to modify
+        /// </summary>
+        public void UpdateChoice() 
         {
             Console.WriteLine("Select the backup job to modify (Between 1 to 5) : ");
             int jobChoice;
-            try // Convertion from string to int is dangerous
+            try // Convertion from string to int is risky
             {
                 jobChoice = int.Parse(Console.ReadLine()) - 1;
             } catch(System.FormatException)
@@ -98,6 +110,10 @@ namespace PROGRAMMATION_SYST_ME.View
                 UpdateChoice();
             }
         }
+        /// <summary>
+        /// Private method that shows the current backup job's properties
+        /// </summary>
+        /// <param name="param"></param>
         private void ShowParam(int param)
         {
             Console.WriteLine($"N -> Name : {userInteract.backupJobs.Name[param]}");
@@ -105,7 +121,11 @@ namespace PROGRAMMATION_SYST_ME.View
             Console.WriteLine($"D -> Destination path : {userInteract.backupJobs.Destination[param]}");
             Console.WriteLine("T -> Type : {0}", userInteract.backupJobs.Type[param] == 0 ? "Full backup" : "Differential backup");
         }
-        private void PrintError(int errorCode) // error handling
+        /// <summary>
+        /// Private method to handle errors
+        /// </summary>
+        /// <param name="errorCode"></param>
+        private void PrintError(int errorCode)
         {
             switch (errorCode)
             {
@@ -117,7 +137,11 @@ namespace PROGRAMMATION_SYST_ME.View
                 case 3: FormatError("Source directory not found"); break;
             }
         }
-        private void FormatError(string msg) // Format error print
+        /// <summary>
+        /// Formats the error and displays it
+        /// </summary>
+        /// <param name="msg"></param>
+        private void FormatError(string msg)
         {
             Console.WriteLine($"Error {errorCode} : {msg}");
             Console.ReadKey();

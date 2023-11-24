@@ -12,7 +12,14 @@ namespace PROGRAMMATION_SYST_ME.ViewModel
         public BackupJobsModel backupJobs = new BackupJobsModel();
         public LogModel log = new LogModel();
         private long saveSize = 0;
-        public int UpdateJob(int jobChoice, string change, string newValue) // update save job
+        /// <summary>
+        /// Method to update backup jobs
+        /// </summary>
+        /// <param name="jobChoice"></param>
+        /// <param name="change"></param>
+        /// <param name="newValue"></param>
+        /// <returns></returns>
+        public int UpdateJob(int jobChoice, string change, string newValue) 
         {
             if (change == "N")
             {
@@ -33,6 +40,11 @@ namespace PROGRAMMATION_SYST_ME.ViewModel
             backupJobs.SaveParam();
             return 0;
         }
+        /// <summary>
+        /// Method to execute backup jobs
+        /// </summary>
+        /// <param name="selection"></param>
+        /// <returns></returns>
         public int ExecuteJob(string selection) // execute save job
         {
             var errorCode = 0;
@@ -91,6 +103,12 @@ namespace PROGRAMMATION_SYST_ME.ViewModel
             }
             return errorCode;
         }
+        /// <summary>
+        /// Method to execute a full copy
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="destination"></param>
+        /// <returns></returns>
         public int FullCopy(string source, string destination)
         {   
             var dir = new DirectoryInfo(source);
@@ -112,6 +130,12 @@ namespace PROGRAMMATION_SYST_ME.ViewModel
             }
             return 0;
         }
+        /// <summary>
+        /// Method to execute a differencial copy
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="destination"></param>
+        /// <returns></returns>
         public int DiferencialCopy(string source, string destination)
         {
             var dir = new DirectoryInfo(source);
