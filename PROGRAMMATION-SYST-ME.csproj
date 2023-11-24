@@ -6,4 +6,10 @@
     <RootNamespace>PROGRAMMATION_SYST_ME</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Update="SaveJobsConfig.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <root>
   <saveJob1>
-    <name>test</name>
+    <name>test1</name>
     <source>C:/default1/source/</source>
     <destination>C:/default1/destination/</destination>
     <type>0</type>

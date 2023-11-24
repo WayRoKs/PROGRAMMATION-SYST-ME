@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Xml;
 
@@ -9,9 +10,10 @@ namespace PROGRAMMATION_SYST_ME.Model
     {
         public XmlDocument xml = new XmlDocument();
         // Temporary path for test
-        private readonly string xmlPath = @"C:\Users\nicor\source\repos\PROGRAMMATION-SYST-ME\SaveJobsConfig.xml";
+        private readonly string xmlPath;
         public BackupJobsModel()
         {
+            xmlPath = Path.Combine(Environment.CurrentDirectory, @"SaveJobsConfig.xml");
             try
             {  
                 xml.Load(xmlPath);
