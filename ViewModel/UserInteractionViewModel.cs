@@ -44,7 +44,8 @@ namespace PROGRAMMATION_SYST_ME.ViewModel
                         errorCode = DiferencialCopy(backupJobs.Source[jobsToExec[i]], backupJobs.Destination[jobsToExec[i]]);
                     }
                 }
-                else break;
+                else 
+                    break;
             }
             return errorCode;
         }
