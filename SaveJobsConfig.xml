@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <saveJob1>
+    <name>FullBackup1</name>
+    <source>C:/Users/nicor/Desktop/Source</source>
+    <destination>C:/Users/nicor/Desktop/Destination</destination>
+    <type>0</type>
+  </saveJob1>
+  <saveJob2>
+    <name>FullBackup2</name>
+    <source>C:/Users/nicor/Desktop/Source 2</source>
+    <destination>C:/Users/nicor/Desktop/Destination 2</destination>
+    <type>0</type>
+  </saveJob2>
+  <saveJob3>
+    <name>DifBackup1</name>
+    <source>C:/Users/nicor/Desktop/Source</source>
+    <destination>C:/Users/nicor/Desktop/Destination</destination>
+    <type>1</type>
+  </saveJob3>
+  <saveJob4>
+    <name>DifBackup2</name>
+    <source>C:/Users/nicor/Desktop/Source 2</source>
+    <destination>C:/Users/nicor/Desktop/Destination 2</destination>
+    <type>1</type>
+  </saveJob4>
+  <saveJob5>
+    <name>default5</name>
+    <source>C:/default5/source/</source>
+    <destination>C:/default5/destination/</destination>
+    <type>0</type>
+  </saveJob5>
+</root>
