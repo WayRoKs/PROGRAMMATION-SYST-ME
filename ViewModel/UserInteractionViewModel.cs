@@ -9,9 +9,14 @@ namespace PROGRAMMATION_SYST_ME.ViewModel
 {
     class UserInteractionViewModel
     {
-        public BackupJobsModel backupJobs = new BackupJobsModel();
-        public LogModel log = new LogModel();
+        public List<BackupJobDataModel> backupJobsData = new List<BackupJobDataModel>();
+        public BackupJobModel backupJobs;
+        public LogModel logFile = new LogModel();
         private long saveSize = 0;
+        public UserInteractionViewModel() 
+        {
+            backupJobs = new BackupJobModel(backupJobsData);
+        }
         /// <summary>
         /// Method to update backup jobs
         /// </summary>
@@ -23,21 +28,21 @@ namespace PROGRAMMATION_SYST_ME.ViewModel
         {
             if (change == "N")
             {
-                backupJobs.Name[jobChoice] = newValue;
+                backupJobsData[jobChoice].Name = newValue;
             }
             else if (change == "S")
             {
-                backupJobs.Source[jobChoice] = newValue;
+                backupJobsData[jobChoice].Source = newValue;
             }
             else if (change == "D")
             {
-                backupJobs.Destination[jobChoice] = newValue;
+                backupJobsData[jobChoice].Destination = newValue;
             }
             else if (change == "T")
             {
-                backupJobs.Type[jobChoice] = int.Parse(newValue);
+                backupJobsData[jobChoice].Type = int.Parse(newValue);
             }
-            backupJobs.SaveParam();
+            backupJobs.SaveParam(backupJobsData);
             return 0;
         }
         /// <summary>
@@ -82,21 +87,20 @@ namespace PROGRAMMATION_SYST_ME.ViewModel
                 {
                     var watch = System.Diagnostics.Stopwatch.StartNew();
                     saveSize = 0;
-                    if (backupJobs.Type[jobsToExec[i]] == 0) // Full backup
+                    if (backupJobsData[jobsToExec[i]].Type == 0) // Full backup
                     {
-                        errorCode = FullCopy(backupJobs.Source[jobsToExec[i]], backupJobs.Destination[jobsToExec[i]]);
+                        errorCode = FullCopy(backupJobsData[jobsToExec[i]].Source, backupJobsData[jobsToExec[i]].Destination);
                     }
                     else // Differencial backup
                     {
-                        errorCode = DiferencialCopy(backupJobs.Source[jobsToExec[i]], backupJobs.Destination[jobsToExec[i]]);
+                        errorCode = DiferencialCopy(backupJobsData[jobsToExec[i]].Source, backupJobsData[jobsToExec[i]].Destination);
                     }
                     watch.Stop();
-                    log.WriteLogSave(backupJobs.Name[jobsToExec[i]],
-                        backupJobs.Source[jobsToExec[i]],
-                        backupJobs.Destination[jobsToExec[i]],
-                        backupJobs.Type[jobsToExec[i]],
+                    logFile.WriteLogSave(
+                        backupJobsData[jobsToExec[i]],
                         watch.ElapsedMilliseconds, 
-                        saveSize);
+                        saveSize
+                    );
                 }
                 else 
                     break;

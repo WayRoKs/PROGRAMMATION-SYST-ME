@@ -1,4 +1,5 @@
-﻿using PROGRAMMATION_SYST_ME.ViewModel;
+﻿using PROGRAMMATION_SYST_ME.Model;
+using PROGRAMMATION_SYST_ME.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -25,9 +26,9 @@ namespace PROGRAMMATION_SYST_ME.View
         public void InitialChoice() 
         {
             Console.Clear();
-            for (var i = 0; i < 5; i++)
+            for (var i = 0; i < userInteract.backupJobsData.Count; i++)
             {
-                Console.WriteLine(i + 1 + " -> " + userInteract.backupJobs.Name[i]);
+                Console.WriteLine(i + 1 + " -> " + userInteract.backupJobsData[i].Name);
             }
             Console.WriteLine("Choose between U (Update backup jobs) or E (Execute backup jobs) or Q (Quit) : ");
             var choice = Console.ReadLine();
@@ -116,10 +117,10 @@ namespace PROGRAMMATION_SYST_ME.View
         /// <param name="param"></param>
         private void ShowParam(int param)
         {
-            Console.WriteLine($"N -> Name : {userInteract.backupJobs.Name[param]}");
-            Console.WriteLine($"S -> Source path : {userInteract.backupJobs.Source[param]}");
-            Console.WriteLine($"D -> Destination path : {userInteract.backupJobs.Destination[param]}");
-            Console.WriteLine("T -> Type : {0}", userInteract.backupJobs.Type[param] == 0 ? "Full backup" : "Differential backup");
+            Console.WriteLine($"N -> Name : {userInteract.backupJobsData[param].Name}");
+            Console.WriteLine($"S -> Source path : {userInteract.backupJobsData[param].Source}");
+            Console.WriteLine($"D -> Destination path : {userInteract.backupJobsData[param].Destination}");
+            Console.WriteLine("T -> Type : {0}", userInteract.backupJobsData[param].Type == 0 ? "Full backup" : "Differential backup");
         }
         /// <summary>
         /// Private method to handle errors
