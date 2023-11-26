@@ -1,8 +1,5 @@
-﻿using PROGRAMMATION_SYST_ME.Model;
-using PROGRAMMATION_SYST_ME.ViewModel;
+﻿using PROGRAMMATION_SYST_ME.ViewModel;
 using System;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
 
 namespace PROGRAMMATION_SYST_ME.View
 {
