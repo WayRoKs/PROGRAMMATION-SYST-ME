@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using PROGRAMMATION_SYST_ME.Model;
 using System.IO;
-using System;
-using Microsoft.VisualBasic;
 using System.Text.RegularExpressions;
+using PROGRAMMATION_SYST_ME.View;
 
 namespace PROGRAMMATION_SYST_ME.ViewModel
 {
@@ -12,6 +11,7 @@ namespace PROGRAMMATION_SYST_ME.ViewModel
         public List<BackupJobDataModel> backupJobsData = new List<BackupJobDataModel>();
         public BackupJobModel backupJobs;
         public LogModel logFile = new LogModel();
+        private StatusView statusView = new StatusView();
         private long saveSize = 0;
         public UserInteractionViewModel() 
         {
@@ -82,9 +82,10 @@ namespace PROGRAMMATION_SYST_ME.ViewModel
                 return 2;
             }
             for (var i = 0; i < jobsToExec.Count; i++)
-            {
+            { 
                 if (errorCode == 0)
                 {
+                    statusView.JobStart(backupJobsData[i].Name);
                     var watch = System.Diagnostics.Stopwatch.StartNew();
                     saveSize = 0;
                     if (backupJobsData[jobsToExec[i]].Type == 0) // Full backup
@@ -101,10 +102,12 @@ namespace PROGRAMMATION_SYST_ME.ViewModel
                         watch.ElapsedMilliseconds, 
                         saveSize
                     );
+                    statusView.JobStop(backupJobsData[i].Name, watch.ElapsedMilliseconds);
                 }
                 else 
                     break;
             }
+            statusView.JobsComplete();
             return errorCode;
         }
         /// <summary>
