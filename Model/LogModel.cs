@@ -9,7 +9,7 @@ namespace PROGRAMMATION_SYST_ME.Model
     /// </summary>
     class LogModel
     {
-        private readonly string logFolder = "C:\\SaveLog"; // Destination folder for the logs
+        private readonly string logFolder;
         private readonly string logFile;
         public int NbJobs;
         /// <summary>
@@ -17,6 +17,9 @@ namespace PROGRAMMATION_SYST_ME.Model
         /// </summary>
         public LogModel()
         {
+            logFolder = Path.Combine(Environment.CurrentDirectory, "logs");
+            if (!Directory.Exists(logFolder))
+                Directory.CreateDirectory(logFolder);
             logFile = Path.Combine(logFolder, DateTime.Now.Day.ToString() + "_" + DateTime.Now.Month.ToString() + "_" + DateTime.Now.Year.ToString() + ".json");
         }
         /// <summary>
@@ -27,8 +30,6 @@ namespace PROGRAMMATION_SYST_ME.Model
         /// <param name="fileSize"> Size of the log file </param>
         public void WriteLogSave(BackupJobDataModel logData, long elapsedTime, long saveSize)
         {
-            if (!Directory.Exists(logFolder))
-                Directory.CreateDirectory(logFolder);
             LogDataModel data = new LogDataModel()
             {
                 LogData = logData,
