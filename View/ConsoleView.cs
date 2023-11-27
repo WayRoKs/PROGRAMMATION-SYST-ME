@@ -8,28 +8,22 @@ namespace PROGRAMMATION_SYST_ME.View
     /// </summary>
     class ConsoleView
     {
-        private readonly UserInteractionViewModel userInteract;
+        private readonly UserInteractionViewModel userInteract = new UserInteractionViewModel();
         private int errorCode;
-        /// <summary>
-        /// Creates the interface
-        /// </summary>
-        public ConsoleView()
-        {
-            userInteract = new UserInteractionViewModel();
-        }
         /// <summary>
         /// Method that allows for initial selection between executing backup jobs or editing backup jobs
         /// </summary>
         public void InitialChoice() 
         {
             Console.Clear();
-            for (var i = 0; i < userInteract.backupJobsData.Count; i++)
+            // foreach utilisable avec identifiant dans le xml
+            for (var i = 0; i < userInteract.BackupJobsData.Count; i++)
             {
-                Console.WriteLine(i + 1 + " -> " + userInteract.backupJobsData[i].Name);
+                Console.WriteLine(i + 1 + " -> " + userInteract.BackupJobsData[i].Name);
             }
             Console.WriteLine("Choose between U (Update backup jobs) or E (Execute backup jobs) or Q (Quit) : ");
             var choice = Console.ReadLine();
-            if (choice == "U")
+            if (choice == "U") // switch case
             {
                 UpdateChoice();
             }
@@ -82,6 +76,8 @@ namespace PROGRAMMATION_SYST_ME.View
             ShowParam(jobChoice);
             Console.WriteLine("Q -> Quit");
             var change = Console.ReadLine();
+
+            // Utilisation d'une méthode pour la lisibilité de la condition
             if (!(change == "N" || change == "S" || change == "D" || change == "T" || change == "Q"))
             {
                 errorCode = 2;
@@ -92,12 +88,14 @@ namespace PROGRAMMATION_SYST_ME.View
             Console.Write("New value : ");
             if (change == "T")
                 Console.WriteLine(" (0 for full backup or 1 for differencial backup)");
+            
             var newValue = Console.ReadLine();
             if (newValue == "" || (change == "T" && !(newValue == "0" || newValue == "1")))
             {
                 errorCode = 2;
                 return;
             }
+            
             errorCode = userInteract.UpdateJob(jobChoice, change, newValue);
             ShowParam(jobChoice);
             Console.WriteLine("Confirm : (M to Modify or anything else to confirm)");
@@ -111,13 +109,13 @@ namespace PROGRAMMATION_SYST_ME.View
         /// <summary>
         /// Private method that shows the current backup job's properties
         /// </summary>
-        /// <param name="param"></param>
-        private void ShowParam(int param)
+        /// <param name="jobChoice"></param>
+        private void ShowParam(int jobChoice)
         {
-            Console.WriteLine($"N -> Name : {userInteract.backupJobsData[param].Name}");
-            Console.WriteLine($"S -> Source path : {userInteract.backupJobsData[param].Source}");
-            Console.WriteLine($"D -> Destination path : {userInteract.backupJobsData[param].Destination}");
-            Console.WriteLine("T -> Type : {0}", userInteract.backupJobsData[param].Type == 0 ? "Full backup" : "Differential backup");
+            Console.WriteLine($"N -> Name : {userInteract.BackupJobsData[jobChoice].Name}");
+            Console.WriteLine($"S -> Source path : {userInteract.BackupJobsData[jobChoice].Source}");
+            Console.WriteLine($"D -> Destination path : {userInteract.BackupJobsData[jobChoice].Destination}");
+            Console.WriteLine("T -> Type : {0}", userInteract.BackupJobsData[jobChoice].Type == 0 ? "Full backup" : "Differential backup");
         }
         /// <summary>
         /// Private method to handle errors

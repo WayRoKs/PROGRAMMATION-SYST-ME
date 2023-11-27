@@ -11,7 +11,7 @@ namespace PROGRAMMATION_SYST_ME.Model
     {
         private readonly string logFolder;
         private readonly string logFile;
-        public int NbJobs;
+        public int NbJobs { set; get; }
         /// <summary>
         /// When creating a .json log file, the name is automatimacally generated to match the current date
         /// </summary>

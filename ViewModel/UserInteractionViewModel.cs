@@ -8,14 +8,14 @@ namespace PROGRAMMATION_SYST_ME.ViewModel
 {
     class UserInteractionViewModel
     {
-        public List<BackupJobDataModel> backupJobsData = new List<BackupJobDataModel>();
-        public BackupJobModel backupJobs;
-        public LogModel logFile = new LogModel();
-        private StatusView statusView = new StatusView();
-        private long saveSize = 0;
+        public List<BackupJobDataModel> BackupJobsData { set; get; } = new List<BackupJobDataModel>();
+        public BackupJobModel BackupJobs { set; get; }
+        public LogModel LogFile { set; get; } = new LogModel();
+        private readonly StatusView statusView = new StatusView();
+        private long totalSaveSize = 0;
         public UserInteractionViewModel() 
         {
-            backupJobs = new BackupJobModel(backupJobsData);
+            BackupJobs = new BackupJobModel(BackupJobsData);
         }
         /// <summary>
         /// Method to update backup jobs
@@ -25,24 +25,24 @@ namespace PROGRAMMATION_SYST_ME.ViewModel
         /// <param name="newValue"></param>
         /// <returns></returns>
         public int UpdateJob(int jobChoice, string change, string newValue) 
-        {
+        {   // Utilisation d'un switch case
             if (change == "N")
             {
-                backupJobsData[jobChoice].Name = newValue;
+                BackupJobsData[jobChoice].Name = newValue;
             }
             else if (change == "S")
             {
-                backupJobsData[jobChoice].Source = newValue;
+                BackupJobsData[jobChoice].Source = newValue;
             }
             else if (change == "D")
             {
-                backupJobsData[jobChoice].Destination = newValue;
+                BackupJobsData[jobChoice].Destination = newValue;
             }
             else if (change == "T")
             {
-                backupJobsData[jobChoice].Type = int.Parse(newValue);
+                BackupJobsData[jobChoice].Type = int.Parse(newValue);
             }
-            backupJobs.SaveParam(backupJobsData);
+            BackupJobs.SaveParam(BackupJobsData);
             return 0;
         }
         /// <summary>
@@ -81,35 +81,35 @@ namespace PROGRAMMATION_SYST_ME.ViewModel
             {
                 return 2;
             }
-            for (var i = 0; i < jobsToExec.Count; i++)
+            for (var i = 0; i < jobsToExec.Count; i++) // Utilisation de foreach
             { 
                 if (errorCode == 0)
                 {
-                    statusView.JobStart(backupJobsData[i].Name);
+                    statusView.JobStart(BackupJobsData[i].Name);
                     var watch = System.Diagnostics.Stopwatch.StartNew();
-                    saveSize = 0;
-                    if (backupJobsData[jobsToExec[i]].Type == 0) // Full backup
+                    totalSaveSize = 0;
+                    if (BackupJobsData[jobsToExec[i]].Type == 0) // Full backup
                     {
-                        errorCode = FullCopy(backupJobsData[jobsToExec[i]].Source, backupJobsData[jobsToExec[i]].Destination);
+                        errorCode = FullCopy(BackupJobsData[jobsToExec[i]].Source, BackupJobsData[jobsToExec[i]].Destination);
                     }
                     else // Differencial backup
                     {
-                        errorCode = DiferencialCopy(backupJobsData[jobsToExec[i]].Source, backupJobsData[jobsToExec[i]].Destination);
+                        errorCode = DiferencialCopy(BackupJobsData[jobsToExec[i]].Source, BackupJobsData[jobsToExec[i]].Destination);
                     }
                     watch.Stop();
-                    logFile.WriteLogSave(
-                        backupJobsData[jobsToExec[i]],
+                    LogFile.WriteLogSave(
+                        BackupJobsData[jobsToExec[i]],
                         watch.ElapsedMilliseconds, 
-                        saveSize
+                        totalSaveSize
                     );
                     if (errorCode == 0)
-                        statusView.JobStop(backupJobsData[i].Name, watch.ElapsedMilliseconds);
+                        statusView.JobStop(BackupJobsData[i].Name, watch.ElapsedMilliseconds);
                 }
                 else 
                     break;
             }
             if (errorCode == 0)
-            statusView.JobsComplete();
+                statusView.JobsComplete();
             return errorCode;
         }
         /// <summary>
@@ -131,7 +131,7 @@ namespace PROGRAMMATION_SYST_ME.ViewModel
             foreach (FileInfo file in dir.GetFiles())
             {
                 file.CopyTo(Path.Combine(destination, file.Name), true);
-                saveSize += file.Length;
+                totalSaveSize += file.Length;
             }
             foreach (DirectoryInfo subDir in dirs)
             {
@@ -159,7 +159,7 @@ namespace PROGRAMMATION_SYST_ME.ViewModel
                 if (file.LastWriteTime != destFile.LastWriteTime) // Condition to see if file changed
                 {
                     file.CopyTo(destPath, true);
-                    saveSize += file.Length;
+                    totalSaveSize += file.Length;
                 }
             }
             foreach (DirectoryInfo subDir in dirs)
