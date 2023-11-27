@@ -102,11 +102,13 @@ namespace PROGRAMMATION_SYST_ME.ViewModel
                         watch.ElapsedMilliseconds, 
                         saveSize
                     );
-                    statusView.JobStop(backupJobsData[i].Name, watch.ElapsedMilliseconds);
+                    if (errorCode == 0)
+                        statusView.JobStop(backupJobsData[i].Name, watch.ElapsedMilliseconds);
                 }
                 else 
                     break;
             }
+            if (errorCode == 0)
             statusView.JobsComplete();
             return errorCode;
         }
