@@ -10,7 +10,7 @@ namespace PROGRAMMATION_SYST_ME.Model
     /// </summary>
     class BackupJobModel
     {
-        public XmlDocument xml = new XmlDocument();
+        public XmlDocument Xml { set; get; } = new XmlDocument();
         private readonly string xmlPath;
         public BackupJobModel(List<BackupJobDataModel> jobList)
         {
@@ -18,23 +18,22 @@ namespace PROGRAMMATION_SYST_ME.Model
             // if the selected path is found, proceed. otherwise raise an error.
             try
             {  
-                xml.Load(xmlPath);
+                Xml.Load(xmlPath);
             }
             catch (Exception e)
             {
                 Console.WriteLine($"Error : {e}");
                 Environment.Exit(3);
             }
-            var i = 0;
-            foreach (XmlNode node in xml.DocumentElement)
+            foreach (XmlNode node in Xml.DocumentElement)
             {
                 BackupJobDataModel data = new BackupJobDataModel();
-                data.Name = node.ChildNodes[0].InnerText;
-                data.Source = node.ChildNodes[1].InnerText;
-                data.Destination = node.ChildNodes[2].InnerText;
-                data.Type = int.Parse(node.ChildNodes[3].InnerText);
+                data.Id = int.Parse(node.ChildNodes[0].InnerText);
+                data.Name = node.ChildNodes[1].InnerText;
+                data.Source = node.ChildNodes[2].InnerText;
+                data.Destination = node.ChildNodes[3].InnerText;
+                data.Type = int.Parse(node.ChildNodes[4].InnerText);
                 jobList.Add(data);
-                i++;
             }
         }
         
@@ -44,19 +43,21 @@ namespace PROGRAMMATION_SYST_ME.Model
         public void SaveParam(List<BackupJobDataModel> jobList)
         {
             var i = 0;
-            foreach (XmlNode node in xml.DocumentElement)
+            foreach (XmlNode node in Xml.DocumentElement)
             {
-                node.ChildNodes[0].InnerText = jobList[i].Name;
-                node.ChildNodes[1].InnerText = jobList[i].Source;
-                node.ChildNodes[2].InnerText = jobList[i].Destination;
-                node.ChildNodes[3].InnerText = jobList[i].Type.ToString();
+                node.ChildNodes[0].InnerText = jobList[i].Id.ToString();
+                node.ChildNodes[1].InnerText = jobList[i].Name;
+                node.ChildNodes[2].InnerText = jobList[i].Source;
+                node.ChildNodes[3].InnerText = jobList[i].Destination;
+                node.ChildNodes[4].InnerText = jobList[i].Type.ToString();
                 i++;
             }
-            xml.Save(xmlPath);
+            Xml.Save(xmlPath);
         }
     }
     class BackupJobDataModel
     {
+        public int Id {  get; set; }
         public string Name { get; set; }
         public string Source { get; set; }
         public string Destination { get; set; }
