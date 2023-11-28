@@ -28,10 +28,11 @@ namespace PROGRAMMATION_SYST_ME.Model
             foreach (XmlNode node in Xml.DocumentElement)
             {
                 BackupJobDataModel data = new BackupJobDataModel();
-                data.Name = node.ChildNodes[0].InnerText;
-                data.Source = node.ChildNodes[1].InnerText;
-                data.Destination = node.ChildNodes[2].InnerText;
-                data.Type = int.Parse(node.ChildNodes[3].InnerText);
+                data.Id = int.Parse(node.ChildNodes[0].InnerText);
+                data.Name = node.ChildNodes[1].InnerText;
+                data.Source = node.ChildNodes[2].InnerText;
+                data.Destination = node.ChildNodes[3].InnerText;
+                data.Type = int.Parse(node.ChildNodes[4].InnerText);
                 jobList.Add(data);
             }
         }
@@ -44,10 +45,11 @@ namespace PROGRAMMATION_SYST_ME.Model
             var i = 0;
             foreach (XmlNode node in Xml.DocumentElement)
             {
-                node.ChildNodes[0].InnerText = jobList[i].Name;
-                node.ChildNodes[1].InnerText = jobList[i].Source;
-                node.ChildNodes[2].InnerText = jobList[i].Destination;
-                node.ChildNodes[3].InnerText = jobList[i].Type.ToString();
+                node.ChildNodes[0].InnerText = jobList[i].Id.ToString();
+                node.ChildNodes[1].InnerText = jobList[i].Name;
+                node.ChildNodes[2].InnerText = jobList[i].Source;
+                node.ChildNodes[3].InnerText = jobList[i].Destination;
+                node.ChildNodes[4].InnerText = jobList[i].Type.ToString();
                 i++;
             }
             Xml.Save(xmlPath);
@@ -55,6 +57,7 @@ namespace PROGRAMMATION_SYST_ME.Model
     }
     class BackupJobDataModel
     {
+        public int Id {  get; set; }
         public string Name { get; set; }
         public string Source { get; set; }
         public string Destination { get; set; }

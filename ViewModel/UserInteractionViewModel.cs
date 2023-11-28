@@ -24,35 +24,34 @@ namespace PROGRAMMATION_SYST_ME.ViewModel
         /// <param name="change"></param>
         /// <param name="newValue"></param>
         /// <returns></returns>
-        public int UpdateJob(int jobChoice, string change, string newValue) 
+        public errorCode UpdateJob(int jobChoice, string change, string newValue) 
         {   // Utilisation d'un switch case
-            if (change == "N")
+            switch (change)
             {
-                BackupJobsData[jobChoice].Name = newValue;
-            }
-            else if (change == "S")
-            {
-                BackupJobsData[jobChoice].Source = newValue;
-            }
-            else if (change == "D")
-            {
-                BackupJobsData[jobChoice].Destination = newValue;
-            }
-            else if (change == "T")
-            {
-                BackupJobsData[jobChoice].Type = int.Parse(newValue);
+                case "N":
+                    BackupJobsData[jobChoice].Name = newValue;
+                    break;
+                case "S":
+                    BackupJobsData[jobChoice].Source = newValue;
+                    break;
+                case "D":
+                    BackupJobsData[jobChoice].Destination = newValue;
+                    break;
+                case "T":
+                    BackupJobsData[jobChoice].Type = int.Parse(newValue);
+                    break;
             }
             BackupJobs.SaveParam(BackupJobsData);
-            return 0;
+            return errorCode.SUCCESS;
         }
         /// <summary>
         /// Method to execute backup jobs
         /// </summary>
         /// <param name="selection"></param>
         /// <returns></returns>
-        public int ExecuteJob(string selection) // execute save job
+        public errorCode ExecuteJob(string selection) // execute save job
         {
-            var errorCode = 0;
+            errorCode error = errorCode.SUCCESS;
             List<int> jobsToExec = new List<int>();
             if (Regex.IsMatch(selection, @"^[1-4]-[2-5]\z"))
             {
@@ -76,25 +75,25 @@ namespace PROGRAMMATION_SYST_ME.ViewModel
                 jobsToExec.Add(int.Parse(selection) - 1);
             }
             else if (selection == "Q")
-                return 0;
+                return global::errorCode.SUCCESS;
             else
             {
-                return 2;
+                return global::errorCode.INPUT_ERROR;
             }
-            for (var i = 0; i < jobsToExec.Count; i++) // Utilisation de foreach
+            foreach (int i in jobsToExec) // Utilisation de foreach
             { 
-                if (errorCode == 0)
+                if (error == errorCode.SUCCESS)
                 {
                     statusView.JobStart(BackupJobsData[i].Name);
                     var watch = System.Diagnostics.Stopwatch.StartNew();
                     totalSaveSize = 0;
                     if (BackupJobsData[jobsToExec[i]].Type == 0) // Full backup
                     {
-                        errorCode = FullCopy(BackupJobsData[jobsToExec[i]].Source, BackupJobsData[jobsToExec[i]].Destination);
+                        error = FullCopy(BackupJobsData[jobsToExec[i]].Source, BackupJobsData[jobsToExec[i]].Destination);
                     }
                     else // Differencial backup
                     {
-                        errorCode = DiferencialCopy(BackupJobsData[jobsToExec[i]].Source, BackupJobsData[jobsToExec[i]].Destination);
+                        error = DiferencialCopy(BackupJobsData[jobsToExec[i]].Source, BackupJobsData[jobsToExec[i]].Destination);
                     }
                     watch.Stop();
                     LogFile.WriteLogSave(
@@ -102,15 +101,15 @@ namespace PROGRAMMATION_SYST_ME.ViewModel
                         watch.ElapsedMilliseconds, 
                         totalSaveSize
                     );
-                    if (errorCode == 0)
+                    if (error == errorCode.SUCCESS)
                         statusView.JobStop(BackupJobsData[i].Name, watch.ElapsedMilliseconds);
                 }
                 else 
                     break;
             }
-            if (errorCode == 0)
+            if (error == errorCode.SUCCESS)
                 statusView.JobsComplete();
-            return errorCode;
+            return error;
         }
         /// <summary>
         /// Method to execute a full copy
@@ -118,11 +117,11 @@ namespace PROGRAMMATION_SYST_ME.ViewModel
         /// <param name="source"></param>
         /// <param name="destination"></param>
         /// <returns></returns>
-        public int FullCopy(string source, string destination)
+        public errorCode FullCopy(string source, string destination)
         {   
             var dir = new DirectoryInfo(source);
             if (!dir.Exists)
-                return 3;
+                return errorCode.SOURCE_ERROR;
             DirectoryInfo[] dirs = dir.GetDirectories();
             var dirDest = new DirectoryInfo(destination);
             if (dirDest.Exists)
@@ -137,7 +136,7 @@ namespace PROGRAMMATION_SYST_ME.ViewModel
             {
                 FullCopy(subDir.FullName, Path.Combine(destination, subDir.Name));
             }
-            return 0;
+            return errorCode.SUCCESS;
         }
         /// <summary>
         /// Method to execute a differencial copy
@@ -145,11 +144,11 @@ namespace PROGRAMMATION_SYST_ME.ViewModel
         /// <param name="source"></param>
         /// <param name="destination"></param>
         /// <returns></returns>
-        public int DiferencialCopy(string source, string destination)
+        public errorCode DiferencialCopy(string source, string destination)
         {
             var dir = new DirectoryInfo(source);
             if (!dir.Exists)
-                return 3;
+                return errorCode.SOURCE_ERROR;
             DirectoryInfo[] dirs = dir.GetDirectories();
             Directory.CreateDirectory(destination);
             foreach (FileInfo file in dir.GetFiles())
@@ -166,8 +165,7 @@ namespace PROGRAMMATION_SYST_ME.ViewModel
             {
                 DiferencialCopy(subDir.FullName, Path.Combine(destination, subDir.Name));
             }
-            return 0;
-
+            return errorCode.SUCCESS;
         }
     }
 }
